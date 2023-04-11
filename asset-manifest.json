@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/retoollk/static/css/main.0d5b2924.css",
+    "main.js": "/retoollk/static/js/main.3598ece0.js",
+    "index.html": "/retoollk/index.html",
+    "main.0d5b2924.css.map": "/retoollk/static/css/main.0d5b2924.css.map",
+    "main.3598ece0.js.map": "/retoollk/static/js/main.3598ece0.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0d5b2924.css",
+    "static/js/main.3598ece0.js"
+  ]
+}

@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/retoollk/static/css/main.0d5b2924.css",
-    "main.js": "/retoollk/static/js/main.3598ece0.js",
-    "index.html": "/retoollk/index.html",
-    "main.0d5b2924.css.map": "/retoollk/static/css/main.0d5b2924.css.map",
-    "main.3598ece0.js.map": "/retoollk/static/js/main.3598ece0.js.map"
+    "main.css": "/reduxasync/static/css/main.0d5b2924.css",
+    "main.js": "/reduxasync/static/js/main.16146d21.js",
+    "index.html": "/reduxasync/index.html",
+    "main.0d5b2924.css.map": "/reduxasync/static/css/main.0d5b2924.css.map",
+    "main.16146d21.js.map": "/reduxasync/static/js/main.16146d21.js.map"
   },
   "entrypoints": [
     "static/css/main.0d5b2924.css",
-    "static/js/main.3598ece0.js"
+    "static/js/main.16146d21.js"
   ]
 }

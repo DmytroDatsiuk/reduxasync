@@ -4,7 +4,7 @@ import React from 'react';
 import { Form, FormField, ErrorMessage, Field } from './ContactForm.styled';
 import { Button } from 'components/Button/Button';
 import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 
 const Schema = Yup.object({
   name: Yup.string()
@@ -23,10 +23,10 @@ export const ContactForm = () => {
   const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
-    const formName = event.nativeEvent.srcElement.elements.name.value;
-    const formNumber = event.nativeEvent.srcElement.elements.number.value;
+    const name = event.nativeEvent.srcElement.elements.name.value;
+    const number = event.nativeEvent.srcElement.elements.number.value;
 
-    dispatch(addContact(formName, formNumber));
+    dispatch(addContact({ name, number }));
     form.reset();
   };
   return (

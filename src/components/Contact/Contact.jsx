@@ -2,11 +2,7 @@ import { Button, Input, Label, LabelText } from './Contact.styled';
 // Імпортуємо хук
 import { useDispatch } from 'react-redux';
 // Імпортуємо генератор екшену
-import {
-  deleteContact,
-  toggleBlocked,
-  toggleChoosen,
-} from 'redux/contactsSlice';
+import { deleteContact, toggleBlocked, toggleChoosen } from 'redux/operations';
 
 import { FiStar } from 'react-icons/fi';
 import { AiFillStar } from 'react-icons/ai';
@@ -18,16 +14,16 @@ export const Contact = ({ contact }) => {
   const dispatch = useDispatch();
   // Викликаємо генератор екшену та передаємо ідентифікатор завдання
   // Відправляємо результат - екшен видалення завдання
-  // const handleDelete = () => dispatch(deleteContact(contact.id));
+  // const handleDelete = () => dispatch(deleteContact(contact));
   // Викликаємо генератор екшену та передаємо ідентифікатор завдання
   // Відправляємо результат - екшен перемикання статусу завдання
-  // const handleToggle = () => dispatch(toggleChoosen(contact.id));
+  // const handleToggle = () => dispatch(toggleChoosen(contact));
   return (
     <>
       <Label>
         <Input
           type="checkbox"
-          onChange={() => dispatch(toggleChoosen(contact.id))}
+          onChange={() => dispatch(toggleChoosen(contact))}
           checked={contact.choosen}
           // checked
         />
@@ -37,13 +33,13 @@ export const Contact = ({ contact }) => {
           <FiStar color="#bce8f8" />
         )}
         <LabelText>
-          Name: {contact.name}: <p>Number: {contact.number}</p>
+          {contact.name}: {contact.number}
         </LabelText>
       </Label>
       <Label>
         <Input
           type="checkbox"
-          onChange={() => dispatch(toggleBlocked(contact.id))}
+          onChange={() => dispatch(toggleBlocked(contact))}
           checked={contact.blocked}
         />
         {contact.blocked ? (
@@ -53,7 +49,7 @@ export const Contact = ({ contact }) => {
         )}
       </Label>
 
-      <Button type="button" onClick={() => dispatch(deleteContact(contact.id))}>
+      <Button type="button" onClick={() => dispatch(deleteContact(contact))}>
         Delete
       </Button>
     </>

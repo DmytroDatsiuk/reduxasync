@@ -1,93 +1,93 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import {
+  addContact,
+  deleteAllBlocked,
+  deleteContact,
+  fetchContacts,
+  toggleBlocked,
+  toggleChoosen,
+} from './operations';
 
-const contactsInitialState = [
-  {
-    id: 'id-1',
-    name: 'Rosie Simpson',
-    number: '+380934591256',
-    choosen: true,
-    blocked: false,
-  },
-  {
-    id: 'id-2',
-    name: 'Hermione Kline',
-    number: '+380934597486',
-    choosen: false,
-    blocked: false,
-  },
-  {
-    id: 'id-3',
-    name: 'Eden Clements',
-    number: '+380934512377',
-    choosen: false,
-    blocked: true,
-  },
-  {
-    id: 'id-4',
-    name: 'Annie Copeland',
-    number: '+380937891222',
-    choosen: false,
-    blocked: false,
-  },
-];
+const handlePending = state => {
+  state.isLoading = true;
+};
+
+const handleRejected = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
+};
+
+const contactsInitialState = {
+  items: [],
+  isLoading: false,
+  error: null,
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
-  initialState: { items: contactsInitialState },
-  reducers: {
-    addContact: {
-      reducer(state, action) {
-        state.items.push(action.payload);
-      },
-      prepare(name, number) {
-        return {
-          payload: {
-            name,
-            number,
-            id: nanoid(),
-            choosen: false,
-            blocked: false,
-          },
-        };
-      },
+  initialState: contactsInitialState,
+  extraReducers: {
+    [fetchContacts.pending]: handlePending,
+    [fetchContacts.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items = action.payload;
     },
+    [fetchContacts.rejected]: handleRejected,
 
-    deleteContact(state, action) {
+    [addContact.pending]: handlePending,
+    [addContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      state.items.push(action.payload);
+    },
+    [addContact.rejected]: handleRejected,
+
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
       const index = state.items.findIndex(
-        contact => contact.id === action.payload
+        contact => contact.id === action.payload.id
       );
       state.items.splice(index, 1);
     },
+    [deleteContact.rejected]: handleRejected,
 
-    toggleChoosen(state, action) {
-      for (const contact of state.items) {
-        if (contact.id === action.payload) {
-          contact.choosen = !contact.choosen;
-          break;
-        }
-      }
+    [toggleChoosen.pending]: handlePending,
+    [toggleChoosen.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.items.splice(index, 1, action.payload);
     },
+    [toggleChoosen.rejected]: handleRejected,
 
-    toggleBlocked(state, action) {
-      for (const contact of state.items) {
-        if (contact.id === action.payload) {
-          contact.blocked = !contact.blocked;
-          break;
-        }
-      }
-    },
+    [toggleBlocked.pending]: handlePending,
+    [toggleBlocked.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
 
-    deleteAllBlocked(state) {
-      return { items: state.items.filter(contact => !contact.blocked) };
+      const index = state.items.findIndex(
+        contact => contact.id === action.payload.id
+      );
+      state.items.splice(index, 1, action.payload);
     },
+    [toggleBlocked.rejected]: handleRejected,
+
+    [deleteAllBlocked.pending]: handlePending,
+    [deleteAllBlocked.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log(action.payload);
+      state.items = {
+        items: action.payload.filter(contact => !contact.blocked),
+      };
+    },
+    [deleteAllBlocked.rejected]: handleRejected,
   },
 });
 
-export const {
-  addContact,
-  deleteContact,
-  toggleChoosen,
-  toggleBlocked,
-  deleteAllBlocked,
-} = contactsSlice.actions;
-export default contactsSlice.reducer;
+export const contactsReducer = contactsSlice.reducer;
